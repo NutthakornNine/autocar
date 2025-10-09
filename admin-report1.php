@@ -132,14 +132,24 @@
             </tbody>
           </table>
         </div>
+
+        <!-- Total Sales Button -->
+        <!--
+            Added a summary button below the transaction table to display
+            the total amount of all sales listed in the current table.  The
+            button shows the computed total on page load and can be styled
+            further using Bootstrap utility classes.  The calculation
+            happens client‑side via the script included at the bottom of
+            this page.
+        -->
+        <div class="d-flex justify-content-end mt-3">
+          <button id="totalSalesBtn" type="button" class="btn btn-primary">
+            รวมยอดขาย: <span id="totalSales">฿ 0.00</span>
+          </button>
+        </div>
         <!-- Pagination -->
         <nav class="mt-3" aria-label="transactions page">
-          
-         
           <ul class="pagination justify-content-end">
-             <button type="button" class="btn btn-primary me-2" >
-            รวมยอดขาย: <span id="totalSales">฿3,000,000,000</span>
-          </button>
             <li class="page-item disabled"><span class="page-link">ก่อนหน้า</span></li>
             <li class="page-item active"><span class="page-link">1</span></li>
             <li class="page-item"><a class="page-link" href="#">2</a></li>
@@ -152,6 +162,30 @@
 </div>
 
 <?php include 'footer.php'; ?>
+
+<!-- Script to calculate and display total sales on the summary button -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Find all numeric cells in the money column (6th column in the table)
+    var moneyCells = document.querySelectorAll('table.align-middle tbody td:nth-child(6)');
+    var total = 0;
+    moneyCells.forEach(function (cell) {
+      // Remove any non‑numeric characters (e.g. currency symbols and commas)
+      var cleaned = cell.textContent.replace(/[^0-9.\-]/g, '');
+      var value = parseFloat(cleaned);
+      if (!isNaN(value)) {
+        total += value;
+      }
+    });
+    // Format the total as Thai Baht with two decimal places
+    var formattedTotal = new Intl.NumberFormat('th-TH', { style: 'currency', currency: 'THB' }).format(total);
+    // Update the button span with the formatted total (remove the currency code if present)
+    var totalElem = document.getElementById('totalSales');
+    if (totalElem) {
+      totalElem.textContent = formattedTotal.replace('THB', '฿');
+    }
+  });
+</script>
 
     
 </body>
