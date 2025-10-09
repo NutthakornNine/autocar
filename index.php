@@ -206,7 +206,7 @@
         </div>
     </section> <br><br>
 
-
+    <?php include 'chatbot.php' ?>
    <?php include 'footer.php' ?>
     </script>
 
