@@ -1,3 +1,4 @@
+ <?php session_start(); ?>
  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
  <meta name="viewport" content="width=device-width, initial-scale=1">
  <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
@@ -14,7 +15,6 @@
      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainnav">
        <span class="navbar-toggler-icon"></span>
      </button>
-
      <div class="collapse navbar-collapse" id="mainnav">
        <ul class="navbar-nav ms-auto align-items-lg-center me-4 ">
          <li class="nav-item" style="font-size:21px;">
@@ -23,10 +23,15 @@
          <li class="nav-item" style="font-size:21px;">
            <a class="nav-link" href="results.php">ค้นหารถ</a>
          </li>
+         <?php if (isset($_SESSION['role'])) : ?>
+            <?php if ($_SESSION['role'] == 1) : ?>
          <li class="nav-item" style="font-size:21px;">
            <a class="nav-link" href="bookings.php">การจองของฉัน</a>
          </li>
+            <?php endif ?>
+         <?php endif ?>
          <!-- ฝั่งผู้ให้บริการปล่อยรถเช้า -->
+          <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 2) : ?>
          <div class="dropdown">
            <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="font-size:21px;">
              ผู้ให้บริการ
@@ -35,8 +40,10 @@
              <li><a class="dropdown-item" href="carsmanage.php">จัดการรถ</a></li>
              <li><a class="dropdown-item" href="reservations.php">ดูข้อมูลการจอง</a></li>
            </ul>
-         </div>
+          </div>
+          <?php endif ?>
          <!-- ฝั่งผู้ให้บริการ Admin -->
+          <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 0) : ?>
          <div class="dropdown">
            <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="font-size:21px;">
              Admin
@@ -47,10 +54,17 @@
              <li><a class="dropdown-item" href="admin-report.php">รายงานยอดขาย</a></li>
            </ul>
          </div>
-
+          <?php endif ?>
+          <?php if (!isset($_SESSION['role'])) : ?>
          <li class="nav-item">
            <a class="text-primary w3-button w3-border w3-round-large  ms-lg-2" style="font-size:21px; " href="login.php"> เข้าสู่ระบบ</a>
          </li>
+         <?php endif ?>
+         <?php if (isset($_SESSION['role'])) : ?>
+         <li class="nav-item">
+           <a class="text-primary w3-button w3-border w3-round-large  ms-lg-2" style="font-size:21px; " href="logout.php"> ออกจากระบบ</a>
+         </li>
+         <?php endif ?>
        </ul>
      </div>
    </div>

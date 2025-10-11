@@ -45,7 +45,7 @@
                             </div>
                         </div>
 
-                       <div class="col-12 col-md-2 col-lg-2" style="margin-top: 35px;">
+                       <div class="col-12 col-md-2 col-lg-2" style="margin-top: 35px; margin-top: 50px">
                             <button type="submit" class="submit-btn w-100 mb-3">ค้นหา</button>
                         </div>
                     </form>
