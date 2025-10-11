@@ -143,7 +143,7 @@
             </section>
         </div>
     </div>
-
+<?php include 'chatbot.php' ?>
 <?php include 'footer.php' ?>
 </body>
 
