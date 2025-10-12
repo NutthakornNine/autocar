@@ -89,14 +89,14 @@
     </section>
 
     <section style="background:#f4f8ff;border-bottom:1px solid #e3eefb;padding:80px 0;">
-        <form action="">
+        <form action="results.php" method="get" id="form-search">
             <div style="max-width:1400px;margin:0 auto;padding:0 16px;">
                 <div class="card shadow rounded-4 p-4">
                     <div class="row">
                         <div class="col-12 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="booking-ref">เลือกจังหวัดที่ต้องการจอง</label>
-                                <select id="booking-ref" class="form-control form-select shadow-4" data-placeholder="เลือกรถ">
+                                <select id="booking-ref" name="province" class="form-control form-select shadow-4" data-placeholder="เลือกรถ">
                                     <option value="" disabled selected>กรุณาเลือก</option>
                                     <option value="CAR001">ปัตตานี</option>
                                     <option value="CAR002">กรุงเทพ</option>
@@ -109,7 +109,7 @@
                         <div class="col-12 col-md-6 col-lg-6">
                             <div class="form-group">
                                 <label for="start-date">วันที่ต้องการเช่า</label>
-                                <input type="text" id="datetime">
+                                <input type="text" id="datetime" name="datetime">
                             </div>
                         </div>
                         <div class="col-12 col-md-2 col-lg-2" style="margin-top: 35px;">
@@ -123,7 +123,6 @@
     <div class="container ">
          <h3><b>รถแนะนำ</b></h3> <hr>
     </div>
-                
     <section id="car-list ">
         <div class="container ">
             <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -211,7 +210,10 @@
     </script>
 
     <script>
-        $('#datetime').daterangepicker();
+        $('#datetime').daterangepicker({
+            format: 'YYYY-MM-DD',
+            timepicker: false
+        });
         $( '#booking-ref' ).select2( {
             theme: "bootstrap-5",
             width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
@@ -220,7 +222,7 @@
         const texts = [
             "ค้นหารถเช่าที่ใช่ ในราคาที่ชอบ...",
             "เปรียบเทียบราคา สะดวก ปลอดภัย",
-            "คิดถึงรถเช่านึกถึง autocar ",
+            "คิดถึงรถเช่านึกถึง Auto Car",
         ];
 
         let textIndex = 0;
@@ -251,6 +253,10 @@
         }
 
         typeWriter();
+
+        $("#form-search").on("submit", function (e) {
+            this.submit();
+        });
     </script>
 
 

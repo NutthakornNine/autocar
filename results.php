@@ -1,3 +1,10 @@
+<?php
+    error_reporting(0);
+    $arr_date = explode(" - ", $_GET['datetime']);
+    $start_date = DateTime::createFromFormat('d/m/Y', trim($arr_date[0]))->format('Y-m-d');
+    $end_date   = DateTime::createFromFormat('d/m/Y', trim($arr_date[1]))->format('Y-m-d');
+
+?>
 <!DOCTYPE html>
 <html lang="th">
 
@@ -55,7 +62,11 @@
                             <div class="form-group">
                                 <label for="booking-ref">เลือกจังหวัดที่ต้องการจอง</label>
                                 <select id="booking-ref">
-                                    <option value="" disabled selected>กรุณาเลือก</option>
+                                    <?php if (isset($_GET['province'])): ?>
+                                        <option value="<?=$_GET['province'] ?? ''?>" selected><?=$_GET['province'] ?? ''?></option>
+                                    <?php else: ?>
+                                        <option value="" disabled selected>กรุณาเลือก</option>
+                                    <?php endif ?>
                                     <option value="CAR001">ปัตตานี</option>
                                     <option value="CAR002">กรุงเทพ</option>
                                     <option value="CAR003">ชลบุรี</option>
@@ -64,16 +75,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-12 col-md-3 col-lg-3">
+                      <div class="col-12 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <label for="start-date">เริ่มเช่า</label>
-                                <input type="datetime-local" id="start-date">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-3 col-lg-3">
-                            <div class="form-group">
-                                <label for="end-date">สิ้นสุด</label>
-                                <input type="datetime-local" id="end-date">
+                                <label for="start-date">วันที่ต้องการเช่า</label>
+                                <input type="text" id="datetime" name="datetime">
                             </div>
                         </div>
                         <div class="col-12 col-md-2 col-lg-2" style="margin-top: 35px;">
@@ -134,7 +139,7 @@
                                     <h3 class="mb-0">
                                         <span class="fw-bold">฿850</span><span class="text-muted">/วัน</span>
                                     </h3>
-                                    <a href="car.php" class="btn btn-primary btn-lg">ดูรายละเอียด</a>
+                                    <a href="car.php?start_date=<?=$start_date?>&end_date=<?=$end_date?>" class="btn btn-primary btn-lg">ดูรายละเอียด</a>
                                 </div>
                             </div>
                         </div>
@@ -145,6 +150,12 @@
     </div>
 <?php include 'chatbot.php' ?>
 <?php include 'footer.php' ?>
+<script>
+      $('#datetime').daterangepicker({
+            format: 'YYYY-MM-DD',
+            timepicker: false
+        });
+</script>
 </body>
 
 </html>

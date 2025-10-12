@@ -16,6 +16,7 @@
             $_SESSION['userid'] = $row['user_id'];
             $_SESSION['email'] = $row['email'];
             $_SESSION['role'] = $row['role'];
+            $_SESSION['users'] = $row;
             echo 'success';
         } else {
             echo 'error';

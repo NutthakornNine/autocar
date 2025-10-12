@@ -1,3 +1,10 @@
+<?php 
+  session_start();
+  if (empty($_SESSION['userid'])) {
+    header("location: login.php");
+    exit;
+  }
+?>
 <!DOCTYPE html> 
 <html lang="th"> 
 <head> 
@@ -16,11 +23,11 @@
         <div class="p-3 bg-white rounded-4 border mb-3"> 
           <h5 class="mb-3">ข้อมูลผู้เช่า</h5> 
           <div class="row g-3"> 
-            <div class="col-md-6"><input class="form-control" placeholder="ชื่อ"/></div> 
-            <div class="col-md-6"><input class="form-control" placeholder="นามสกุล"/></div> 
-            <div class="col-md-6"><input class="form-control" placeholder="อีเมล"/></div> 
-            <div class="col-md-6"><input class="form-control" placeholder="โทรศัพท์"/></div> 
-            <div class="col-12"><input class="form-control" placeholder="ที่อยู่สำหรับติดต่อ"/></div> 
+            <div class="col-md-6"><input class="form-control" placeholder="ชื่อ" value="<?=$_SESSION['users']['fullname']?>"/></div> 
+            <div class="col-md-6"><input class="form-control" placeholder="นามสกุล" value="<?=$_SESSION['users']['lastname']?>"/></div> 
+            <div class="col-md-6"><input class="form-control" placeholder="อีเมล" value="<?=$_SESSION['users']['email']?>"/></div> 
+            <div class="col-md-6"><input class="form-control" placeholder="โทรศัพท์" value="<?=$_SESSION['users']['phone']?>"/></div> 
+            <div class="col-12"><input class="form-control" placeholder="ที่อยู่สำหรับติดต่อ" value="<?=$_SESSION['users']['address']?>"/></div> 
           </div> 
         </div> 
         <div class="p-3 bg-white rounded-4 border"> 

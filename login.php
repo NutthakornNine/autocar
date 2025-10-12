@@ -14,7 +14,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/> 
   <link rel="stylesheet" href="css/fonts.css">
   <?php include 'header.php'; ?>
-
     <style>
     .input-big{
         font-size: 20px;       
@@ -24,7 +23,6 @@
         width: 425px;
         box-sizing: border-box; }
     </style>
-    
 </head> 
 <body class="d-flex align-items-center" style="min-height:100vh ; background: linear-gradient(135deg, #1a73e8, #1f53d7ff); "> 
   <div class="container"> 

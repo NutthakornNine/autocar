@@ -27,42 +27,58 @@
 
 <body class="d-flex align-items-center" style="min-height:100vh ; background: linear-gradient(135deg, #1a73e8, #1f53d7ff); ">
   <div class="container">
-    <form action="" method="post" id="register">
-      <div class="row justify-content-center">
-        <div class="col-md-7 col-lg-6">
-          <div class="p-4 bg-white rounded-4 border shadow-sm" style="margin-top: 65px;">
-            <div class="text-center mb-3">
-              <img src="assets/logo2.png" alt="logo" tyle="height:300px" />
-              <h1 style="font-size:25px;"><b>สมัครสมาชิก</b> </h1>
-            </div>
-            <div class="row g-3">
-              <div class="col-md-6"><input class="form-control input-big" name="fullname" id="fullname" required style="font-size:19px;" placeholder="ชื่อ" /></div>
-              <div class="col-md-6"><input class="form-control input-big" name="lastname" id="lastname" required  style="font-size:19px;" placeholder="นามสกุล" /></div>
-              <div class="col-md-6"><input class="form-control input-big" name="email" id="email"   required    style="font-size:19px;" placeholder="อีเมล" /></div>
-              <div class="col-md-6"><input class="form-control input-big" name="phone" id="phone"required  style="font-size:19px;" placeholder="โทรศัพท์" /></div>
-              <div class="col-md-6"><input class="form-control input-big" name="password1" id="password1"required  style="font-size:19px;" placeholder="รหัสผ่าน" type="password" /></div>
-              <div class="col-md-6"><input class="form-control input-big"  name="password2" id="password2"required style="font-size:19px;" placeholder="ยืนยันรหัสผ่าน" type="password" /></div>
-              <div class="col-md-12">
-                <textarea name="address" class="form-control" id="address"required  cols="6" rows="6" placeholder="ที่อยู่"></textarea>
-              </div>
-               <div class="col-md-12">
-              <select  class="form-control input-big" style="font-size:19px;" required name="role"  id="role" >
-                <option value="" selected disabled >เลือกประเภทบัญชีของคุณ</option>
-                <option value="1">ลูกค้าผู้เช่ารถ (สำหรับผู้ที่ต้องการเช่ารถ)</option>
-                <option value="2">ผู้ให้บริการรถเช่า (สำหรับผู้ที่นำรถมาปล่อยเช่า)</option>
-              </select>
-            </div>
-  
-            </div>
-           
-            <div class="text-center small mt-3"><input class="input-big btn btn-outline-primary" style="font-size:20px; " type="submit" value="เข้าสู่ระบบ"></div>
-  
-            <div class="text-center small mt-3" style="font-size:19px;">มีบัญชีแล้ว? <a href="login.php" style="color: #1a73e8;">เข้าสู่ระบบ</a></div>
+    <div class="row justify-content-center">
+  <div class="col-md-7 col-lg-6">
+    <div class="p-4 bg-white rounded-4 border shadow-sm" style="margin-top: 65px; min-width: 50rem;">
+      <div class="text-center mb-3">
+        <img src="assets/logo2.png" alt="logo" style="height: 300px;" />
+        <h1 style="font-size:25px;"><b>สมัครสมาชิก</b></h1>
+      </div>
+
+      <form action="" method="post" id="register">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <input class="form-control form-control-lg" name="fullname" id="fullname" required style="font-size:19px;" placeholder="ชื่อ" />
+          </div>
+          <div class="col-md-6">
+            <input class="form-control form-control-lg" name="lastname" id="lastname" required style="font-size:19px;" placeholder="นามสกุล" />
+          </div>
+          <div class="col-md-6">
+            <input class="form-control form-control-lg" name="email" id="email" required style="font-size:19px;" placeholder="อีเมล" />
+          </div>
+          <div class="col-md-6">
+            <input class="form-control form-control-lg" name="phone" id="phone" required style="font-size:19px;" placeholder="โทรศัพท์" />
+          </div>
+          <div class="col-md-6">
+            <input class="form-control form-control-lg" name="password1" id="password1" required style="font-size:19px;" placeholder="รหัสผ่าน" type="password" />
+          </div>
+          <div class="col-md-6">
+            <input class="form-control form-control-lg" name="password2" id="password2" required style="font-size:19px;" placeholder="ยืนยันรหัสผ่าน" type="password" />
+          </div>
+          <div class="col-md-12">
+            <textarea name="address" class="form-control" id="address" required cols="6" rows="6" placeholder="ที่อยู่"></textarea>
+          </div>
+          <div class="col-md-12">
+            <select class="form-control form-control-lg" style="font-size:19px;" required name="role" id="role">
+              <option value="" selected disabled>เลือกประเภทบัญชีของคุณ</option>
+              <option value="1">ลูกค้าผู้เช่ารถ (สำหรับผู้ที่ต้องการเช่ารถ)</option>
+              <option value="2">ผู้ให้บริการรถเช่า (สำหรับผู้ที่นำรถมาปล่อยเช่า)</option>
+            </select>
+          </div>
+
+          <div class="col-12 text-center mt-3">
+            <input class="btn btn-outline-primary w-100 py-2" style="font-size:20px;" type="submit" value="สมัครสมาชิก">
           </div>
         </div>
+      </form>
+
+      <div class="text-center small mt-3" style="font-size:19px;">
+        มีบัญชีแล้ว? <a href="login.php" style="color: #1a73e8;">เข้าสู่ระบบ</a>
       </div>
-    </form>
+    </div>
   </div>
+</div>
+
   <?php include 'footer.php'; ?>
   <script>
     $(document).ready(function () {
