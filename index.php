@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="th">
 
@@ -89,7 +90,6 @@
     </section>
 
     <section style="background:#f4f8ff;border-bottom:1px solid #e3eefb;padding:80px 0;">
-        <form action="results.php" method="get" id="form-search">
             <div style="max-width:1400px;margin:0 auto;padding:0 16px;">
                 <div class="card shadow rounded-4 p-4">
                     <div class="row">
@@ -98,11 +98,9 @@
                                 <label for="booking-ref">เลือกจังหวัดที่ต้องการจอง</label>
                                 <select id="booking-ref" name="province" class="form-control form-select shadow-4" data-placeholder="เลือกรถ">
                                     <option value="" disabled selected>กรุณาเลือก</option>
-                                    <option value="CAR001">ปัตตานี</option>
-                                    <option value="CAR002">กรุงเทพ</option>
-                                    <option value="CAR003">ชลบุรี</option>
-                                    <option value="VAN001">VAN001 - รถตู้ Toyota</option>
-                                    <option value="BIKE001">BIKE001 - มอเตอร์ไซค์</option>
+                                    <?php foreach (getProvince() as $p): ?>
+                                        <option value="<?=$p['id']?>"><?=$p['name_th']?></option>
+                                    <?php endforeach ?>
                                 </select>
                             </div>
                         </div>
@@ -126,82 +124,26 @@
     <section id="car-list ">
         <div class="container ">
             <div class="row row-cols-1 row-cols-md-2 g-4">
+                 <?php foreach (getCarListNoOwner() as $car) : ?>
                 <div class="col" data-aos="fade-up">
                     <div class="card">
-                        <img src="assets/car1.jpg" class="card-img-top fixed-img" alt="...">
+                        <img src="upload/<?= explode(",", $car['car_image'])[0] ?>" class="card-img-top fixed-img" alt="...">
                         <div class="card-body">
-                            <h4 class="card-title"><b>Card title</b> </h4>
-                            <p class="card-text">This is a longer</p>
+                            <h4 class="card-title"><b><?=$car['car_name']?></b> </h4>
+                            <p class="card-text"><?=$car['car_detail']?></p>
                              <div class="d-flex justify-content-between align-items-center">
                                 <div>
-                                <b> <h3><span class="fw-bold">฿850</span><span class="text-muted">/วัน</span> </b></h3> 
+                                <b> <h3><span class="fw-bold">฿<?=$car['price_per_day']?></span><span class="text-muted">/วัน</span> </b></h3> 
                                 </div>
                                 <div class="d-flex gap-2">
                                 <a href="car.php" class="btn btn-outline-primary btn-lg ">ดูรายละเอียด</a>
-                                <a href="checkout.php" class="btn btn-primary btn-lg ">จองทันที</a>
+                                <a href="checkout.php?car_id=<?=$car['car_id']?>" class="btn btn-primary btn-lg ">จองทันที</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                 <div class="col" data-aos="fade-up">
-                    <div class="card">
-                        <img src="assets/car1.jpg" class="card-img-top fixed-img" alt="...">
-                        <div class="card-body">
-                            <h4 class="card-title"><b>Card title</b> </h4>
-                            <p class="card-text">This is a longer</p>
-                             <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                <b> <h3><span class="fw-bold">฿850</span><span class="text-muted">/วัน</span> </b></h3> 
-                                </div>
-                                <div class="d-flex gap-2">
-                                <a href="car.php" class="btn btn-outline-primary  btn-lg ">ดูรายละเอียด</a>
-                                <a href="checkout.php" class="btn btn-primary btn-lg">จองทันที</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <div class="col" data-aos="fade-up">
-                    <div class="card">
-                        <img src="assets/car1.jpg" class="card-img-top fixed-img" alt="...">
-                        <div class="card-body">
-                            <h4 class="card-title"><b>Card title</b> </h4>
-                            <p class="card-text">This is a longer</p>
-                             <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                <b> <h3><span class="fw-bold">฿850</span><span class="text-muted">/วัน</span> </b></h3> 
-                                </div>
-                                <div class="d-flex gap-2">
-                                <a href="car.php" class="btn btn-outline-primary btn-lg">ดูรายละเอียด</a>
-                                <a href="checkout.php" class="btn btn-primary btn-lg">จองทันที</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                 <div class="col" data-aos="fade-up">
-                    <div class="card">
-                        <img src="assets/car1.jpg" class="card-img-top fixed-img" alt="...">
-                        <div class="card-body">
-                            <h4 class="card-title"><b>Card title</b> </h4>
-                            <p class="card-text">This is a longer</p>
-                             <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                <b> <h3><span class="fw-bold">฿850</span><span class="text-muted">/วัน</span> </b></h3> 
-                                </div>
-                                <div class="d-flex gap-2">
-                                <a href="car.php" class="btn btn-outline-primary btn-lg ">ดูรายละเอียด</a>
-                                <a href="checkout.php" class="btn btn-primary btn-lg ">จองทันที</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            
-
-                
+                  <?php endforeach ?>
         </div>
     </section> <br><br>
 
@@ -211,8 +153,10 @@
 
     <script>
         $('#datetime').daterangepicker({
-            format: 'YYYY-MM-DD',
-            timepicker: false
+           locale: {
+             format: 'YYYY-MM-DD',
+             separetor: ' - '
+           }
         });
         $( '#booking-ref' ).select2( {
             theme: "bootstrap-5",

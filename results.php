@@ -1,10 +1,3 @@
-<?php
-    error_reporting(0);
-    $arr_date = explode(" - ", $_GET['datetime']);
-    $start_date = DateTime::createFromFormat('d/m/Y', trim($arr_date[0]))->format('Y-m-d');
-    $end_date   = DateTime::createFromFormat('d/m/Y', trim($arr_date[1]))->format('Y-m-d');
-
-?>
 <!DOCTYPE html>
 <html lang="th">
 
@@ -67,11 +60,9 @@
                                     <?php else: ?>
                                         <option value="" disabled selected>กรุณาเลือก</option>
                                     <?php endif ?>
-                                    <option value="CAR001">ปัตตานี</option>
-                                    <option value="CAR002">กรุงเทพ</option>
-                                    <option value="CAR003">ชลบุรี</option>
-                                    <option value="VAN001">VAN001 - รถตู้ Toyota</option>
-                                    <option value="BIKE001">BIKE001 - มอเตอร์ไซค์</option>
+                                    <?php foreach (getProvince() as $p): ?>
+                                        <option value="<?=$p['id']?>"><?=$p['name_th']?></option>
+                                    <?php endforeach ?>
                                 </select>
                             </div>
                         </div>
@@ -119,30 +110,31 @@
             <section class="col-12 col-lg-8">
                 <div class="card shadow h-100">
                     <div class="row g-0 align-items-stretch">
-                 
-                        <div class="col-md-5 h-100">
-                            <img src="assets/car1.jpg" class="img-cover" alt="">
-                        </div>
-
-                        <div class="col-md-7 h-100">
-                            <div class="card-body d-flex flex-column h-100">
-                                <h3 class="card-title"><b>Toyota</b></h3>
-                                <p class="card-text">
-                                    This is a wider card with supporting text below as a natural lead-in to additional content.
-                                </p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-
-                                <hr style="border: 2px solid #000;">
-
-            
-                                <div class="d-flex justify-content-between align-items-center mt-auto">
-                                    <h3 class="mb-0">
-                                        <span class="fw-bold">฿850</span><span class="text-muted">/วัน</span>
-                                    </h3>
-                                    <a href="car.php?start_date=<?=$start_date?>&end_date=<?=$end_date?>" class="btn btn-primary btn-lg">ดูรายละเอียด</a>
+                        <?php foreach (getCarListNoOwner() as $car) : ?>
+                            <div class="col-md-5 h-100">
+                                <img src="upload/<?= explode(",", $car['car_image'])[0] ?>" class="img-cover" alt="">
+                            </div>
+    
+                            <div class="col-md-7 h-100">
+                                <div class="card-body d-flex flex-column h-100">
+                                    <h3 class="card-title"><b><?=$car['car_name']?></b></h3>
+                                    <p class="card-text">
+                                       <?=$car['car_detail']?>
+                                    </p>
+                                    <p class="card-text"><small class="text-muted">Last updated <?=$car['add_date']?> mins ago</small></p>
+    
+                                    <hr style="border: 2px solid #000;">
+    
+                
+                                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                                        <h3 class="mb-0">
+                                            <span class="fw-bold">฿<?=$car['price_per_day']?></span><span class="text-muted">/วัน</span>
+                                        </h3>
+                                        <a href="car.php?datetime=<?=$_GET['datetime']?>&car_id=<?=$car['car_id']?>" class="btn btn-primary btn-lg">ดูรายละเอียด</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        <?php endforeach ?>
                     </div>
                 </div>
             </section>
@@ -152,8 +144,12 @@
 <?php include 'footer.php' ?>
 <script>
       $('#datetime').daterangepicker({
-            format: 'YYYY-MM-DD',
-            timepicker: false
+            locale: {
+                format: 'YYYY-MM-DD',
+                separetor: ' - '
+            },
+            startDate: '<?=explode(" - ", $_GET['datetime'])[0]?>',
+            endDate: '<?=explode(" - ", $_GET['datetime'])[1]?>'
         });
 </script>
 </body>

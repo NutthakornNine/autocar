@@ -20,3 +20,4 @@
             font-size: 1.2rem !important;
         }
     </style>
+    <?php include 'include/controller.inc.php'; ?>

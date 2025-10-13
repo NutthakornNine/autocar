@@ -13,6 +13,7 @@
   <title>สรุปและชำระเงิน — AutoHub</title> 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/> 
   <?php include 'header.php'; ?>
+  <?php $data = getCarListById(); ?>
 </head> 
 <body> 
 
