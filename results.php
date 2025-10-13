@@ -1,3 +1,13 @@
+<?php
+if (isset($_GET['datetime'])) {
+        $strDate = explode(" - ", $_GET['datetime']);
+        $startDate = $strDate[0];
+        $endDate = $strDate[1];
+    } else {
+        $startDate = date("Y-m-d");
+        $endDate = date("Y-m-d");
+    }
+?>
 <!DOCTYPE html>
 <html lang="th">
 
@@ -148,8 +158,8 @@
                 format: 'YYYY-MM-DD',
                 separetor: ' - '
             },
-            startDate: '<?=explode(" - ", $_GET['datetime'])[0]?>',
-            endDate: '<?=explode(" - ", $_GET['datetime'])[1]?>'
+            startDate: '<?= $startDate ?>',
+            endDate: '<?= $endDate ?>'
         });
 </script>
 </body>

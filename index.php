@@ -1,4 +1,13 @@
-
+<?php
+    if (isset($_GET['datetime'])) {
+        $strDate = explode(" - ", $_GET['datetime']);
+        $startDate = $strDate[0];
+        $endDate = $strDate[1];
+    } else {
+        $startDate = date("Y-m-d");
+        $endDate = date("Y-m-d");
+    }
+?>
 <!DOCTYPE html>
 <html lang="th">
 
@@ -80,7 +89,7 @@
 </head>
 
 <body>
-    <?php include 'menu.php'; ?> 
+    <?php include 'menu.php'; ?>
     <section class="hero">
         <img src="assets/banner.png" class="hero-img" alt="Autocar Banner" />
         <div class="hero-overlay">
@@ -90,8 +99,9 @@
     </section>
 
     <section style="background:#f4f8ff;border-bottom:1px solid #e3eefb;padding:80px 0;">
-            <div style="max-width:1400px;margin:0 auto;padding:0 16px;">
-                <div class="card shadow rounded-4 p-4">
+        <div style="max-width:1400px;margin:0 auto;padding:0 16px;">
+            <div class="card shadow rounded-4 p-4">
+                <form action="" method="get" id="form-search">
                     <div class="row">
                         <div class="col-12 col-md-4 col-lg-4">
                             <div class="form-group">
@@ -99,7 +109,7 @@
                                 <select id="booking-ref" name="province" class="form-control form-select shadow-4" data-placeholder="เลือกรถ">
                                     <option value="" disabled selected>กรุณาเลือก</option>
                                     <?php foreach (getProvince() as $p): ?>
-                                        <option value="<?=$p['id']?>"><?=$p['name_th']?></option>
+                                        <option value="<?= $p['id'] ?>"><?= $p['name_th'] ?></option>
                                     <?php endforeach ?>
                                 </select>
                             </div>
@@ -115,54 +125,59 @@
                         </div>
 
                     </div>
-                </div>
-        </form>
+            </div>
+            </form>
     </section>
     <div class="container ">
-         <h3><b>รถแนะนำ</b></h3> <hr>
+        <h3><b>รถแนะนำ</b></h3>
+        <hr>
     </div>
     <section id="car-list ">
         <div class="container ">
             <div class="row row-cols-1 row-cols-md-2 g-4">
-                 <?php foreach (getCarListNoOwner() as $car) : ?>
-                <div class="col" data-aos="fade-up">
-                    <div class="card">
-                        <img src="upload/<?= explode(",", $car['car_image'])[0] ?>" class="card-img-top fixed-img" alt="...">
-                        <div class="card-body">
-                            <h4 class="card-title"><b><?=$car['car_name']?></b> </h4>
-                            <p class="card-text"><?=$car['car_detail']?></p>
-                             <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                <b> <h3><span class="fw-bold">฿<?=$car['price_per_day']?></span><span class="text-muted">/วัน</span> </b></h3> 
-                                </div>
-                                <div class="d-flex gap-2">
-                                <a href="car.php" class="btn btn-outline-primary btn-lg ">ดูรายละเอียด</a>
-                                <a href="checkout.php?car_id=<?=$car['car_id']?>" class="btn btn-primary btn-lg ">จองทันที</a>
+                <?php foreach (getCarListNoOwner() as $car) : ?>
+                    <div class="col" data-aos="fade-up">
+                        <div class="card">
+                            <img src="upload/<?= explode(",", $car['car_image'])[0] ?>" class="card-img-top fixed-img" alt="...">
+                            <div class="card-body">
+                                <h4 class="card-title"><b><?= $car['car_name'] ?></b> </h4>
+                                <p class="card-text"><?= $car['car_detail'] ?></p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <b>
+                                            <h3><span class="fw-bold">฿<?= $car['price_per_day'] ?></span><span class="text-muted">/วัน</span>
+                                        </b></h3>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <a href="car.php" class="btn btn-outline-primary btn-lg ">ดูรายละเอียด</a>
+                                        <a href="checkout.php?car_id=<?= $car['car_id'] ?>&start_date=<?=$startDate?>&end_date=<?=$endDate?>" class="btn btn-primary btn-lg ">จองทันที</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                  <?php endforeach ?>
-        </div>
+                <?php endforeach ?>
+            </div>
     </section> <br><br>
 
     <?php include 'chatbot.php' ?>
-   <?php include 'footer.php' ?>
+    <?php include 'footer.php' ?>
     </script>
 
     <script>
         $('#datetime').daterangepicker({
-           locale: {
-             format: 'YYYY-MM-DD',
-             separetor: ' - '
-           }
+            locale: {
+                format: 'YYYY-MM-DD',
+                separetor: ' - '
+            },
+            startDate: '<?= $startDate ?>',
+            endDate: '<?= $endDate ?>'
         });
-        $( '#booking-ref' ).select2( {
+        $('#booking-ref').select2({
             theme: "bootstrap-5",
-            width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
-            placeholder: $( this ).data( 'placeholder' ),
-        } );
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+        });
         const texts = [
             "ค้นหารถเช่าที่ใช่ ในราคาที่ชอบ...",
             "เปรียบเทียบราคา สะดวก ปลอดภัย",
@@ -198,7 +213,7 @@
 
         typeWriter();
 
-        $("#form-search").on("submit", function (e) {
+        $("#form-search").on("submit", function(e) {
             this.submit();
         });
     </script>

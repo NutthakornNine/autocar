@@ -1,3 +1,13 @@
+<?php
+if (isset($_GET['datetime'])) {
+      $strDate = explode(" - ", $_GET['datetime']);
+      $startDate = $strDate[0];
+      $endDate = $strDate[1];
+  } else {
+      $startDate = date("Y-m-d");
+      $endDate = date("Y-m-d");
+  }
+?>
 <!DOCTYPE html>
 <html lang="th">
 
@@ -57,7 +67,7 @@
               <div id="carPrice" class="fs-3 fw-bold">฿<?= $data['price_per_day'] ?>/วัน</div>
             </div>
             <div>
-              <a id="goCheckout" href="checkout.php" class="btn btn-outline-primary btn-lg ">จองทันที</a>
+              <a id="goCheckout" href="checkout.php?car_id=<?= $data['car_id'] ?>&start_date=<?=$startDate?>&end_date=<?=$endDate?>" class="btn btn-outline-primary btn-lg ">จองทันที</a>
             </div>
           </div>
           <hr />
@@ -78,11 +88,21 @@
   <script>
     $('#datetime').daterangepicker({
       locale: {
+        autoUpdateInput: false,
+        cancelLabel: 'Clear',
         format: 'YYYY-MM-DD',
         separetor: ' - '
       },
       startDate: '<?= explode(" - ", $_GET['datetime'])[0] ?>',
       endDate: '<?= explode(" - ", $_GET['datetime'])[1] ?>'
+    });
+    $('#datetime').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+    });
+
+    // 🧹 ล้างค่าเมื่อกดปุ่ม Clear
+    $('#datetime').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
     });
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

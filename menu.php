@@ -21,7 +21,7 @@
            <a class="nav-link active" href="index.php">หน้าแรก</a>
          </li>
          <li class="nav-item" style="font-size:21px;">
-           <a class="nav-link" href="results.php?datetime=<?=date('d/m/Y').' - '.date('d/m/Y')?>">ค้นหารถ</a>
+           <a class="nav-link" href="results.php?datetime=<?=date('Y-m-d').' - '.date('Y-m-d')?>">ค้นหารถ</a>
          </li>
          <?php if (isset($_SESSION['role'])) : ?>
             <?php if ($_SESSION['role'] == 1) : ?>
