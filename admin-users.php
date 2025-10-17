@@ -13,30 +13,28 @@
 <div class="content mt-5">
   <section class="py-4">
     <div class="container">
-      <h5 class="mb-4">จัดการผู้ใช้</h5>
-
-      <!-- Filter -->
-      <div class="card auto-card p-3 p-md-4 mb-4">
+      <h4 class="mb-4 mt-5"> <b>จัดการผู้ใช้</b></h4>
+      <div class="card auto-card p-3 p-md-4 mb-4 ">
         <form class="row g-3">
           <div class="col-12 col-md-4">
             <label class="form-label">คำค้น (ชื่อ/อีเมล)</label>
-            <input type="text" class="form-control" name="q" placeholder="พิมพ์เพื่อค้นหา...">
+            <input type="text" class="form-control" name="name" placeholder="พิมพ์เพื่อค้นหา...">
           </div>
           <div class="col-6 col-md-3">
             <label class="form-label">บทบาท</label>
             <select class="form-select" name="role">
               <option value="">ทั้งหมด</option>
-              <option value="0">ผู้ใช้</option>
-              <option value="1">ผู้ให้บริการ</option>
-              <option value="2">แอดมิน</option>
+              <option value="1">ผู้ใช้</option>
+              <option value="2">ผู้ให้บริการ</option>
+              <option value="admin">แอดมิน</option>
             </select>
           </div>
           <div class="col-6 col-md-3">
             <label class="form-label">สถานะบัญชี</label>
             <select class="form-select" name="status">
               <option value="">ทั้งหมด</option>
-              <option value="0">ปกติ</option>
-              <option value="1">ระงับ</option>
+              <option value="1">ปกติ</option>
+              <option value="disable">ระงับ</option>
             </select>
           </div>
           <div class="col-12 col-md-2 d-flex align-items-end">
@@ -44,8 +42,6 @@
           </div>
         </form>
       </div>
-
-      <!-- Table -->
       <div class="card auto-card p-3 p-md-4">
         <div class="table-responsive">
           <table class="table align-middle">
@@ -55,80 +51,141 @@
                 <th>ชื่อ–นามสกุล</th>
                 <th>อีเมล</th>
                 <th>เบอร์</th>
+                <th>ที่อยู่</th>
                 <th>บทบาท</th>
                 <th>สถานะ</th>
                 <th class="text-end">การจัดการ</th>
               </tr>
             </thead>
             <tbody>
-              <!-- loop ตัวอย่าง -->
-              <tr>
-                <td>1</td>
-                <td>นาย สมชาย</td>
-                <td>somchai@example.com</td>
-                <td>081-234-5678</td>
-                <td><span class="badge text-bg-secondary">ผู้ใช้</span></td>
-                <td><span class="badge text-bg-success">ปกติ</span></td>
-                <td class="text-end">
-                  <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#userView">รายละเอียด<i class="bi bi-eye"></i></button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash">ลบข้อมูลลูกค้า</i></button>
-                </td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>นางสาว อมร</td>
-                <td>amon@example.com</td>
-                <td>089-999-9999</td>
-                <td><span class="badge text-bg-info">ผู้ให้บริการ</span></td>
-                <td><span class="badge text-bg-danger">ระงับ</span></td>
-                <td class="text-end">
-                  <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#userView">รายละเอียด<i class="bi bi-eye"></i></button>
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash">ลบข้อมูลลูกค้า</i></button>
-                </td>
-              </tr>
+              <?php foreach (getUsers() as $key => $row) : ?>
+                <tr>
+                  <td><?=$key + 1?></td>
+                  <td><?=$row['fullname']?> <?=$row['lastname']?></td>
+                  <td><?=$row['email']?></td>
+                  <td><?=$row['phone']?></td>
+                  <td><?=$row['address']?></td>
+                  <td>
+                    <?php
+                      switch ($row['role']) {
+                        case '1':
+                          echo "<span class='badge text-bg-secondary'>ผู้ใช้</span>";
+                          break;
+                        case '2':
+                          echo "<span class='badge text-bg-primary'>ผู้ให้บริการ</span>";
+                          break;
+                        case '0':
+                          echo "<span class='badge text-bg-dark'>แอดมิน</span>";
+                          break;
+                      }
+                    ?>
+                  </td>
+                  <td>
+                      <?php
+                      if ($_SESSION['userid'] == $row['user_id']) {
+                        echo "<span class='badge text-bg-warning'>ไม่อนุญาติ</span>";
+                      } else {
+                        switch ($row['status']) {
+                          case '0':
+                            echo "
+                              <a href='#' data-id='$row[user_id]' data-status='$row[status]' class='btn-status'>
+                                <span class='badge text-bg-danger'>ระงับ</span>
+                              </a>
+                            ";
+                            break;
+                          case '1':
+                            echo "
+                            <a href='#' data-id='$row[user_id]' data-status='$row[status]' class='btn-status'>
+                              <span class='badge text-bg-success'>ปกติ</span>
+                            </a>
+                            ";
+                            break;
+                        }
+                      }
+                    ?>
+                  </td>
+                  <td class="text-end">
+                    <?php if ($_SESSION['userid'] == $row['user_id']) { ?>
+                     <span class='badge text-bg-warning'>ไม่อนุญาติ</span>
+                    <?php } else { ?>
+                        <button 
+                          type="button"
+                          data-user_id="<?=$row['user_id']?>"
+                          class="btn btn-sm btn-outline-danger btn-delete"
+                          >
+                          <i class="bi bi-trash">ลบข้อมูลลูกค้า</i>
+                        </button>
+                    <?php } ?>
+
+                  </td>
+                </tr>
+              <?php endforeach ?>
             </tbody>
           </table>
         </div>
-
-        <!-- Pagination -->
-        <nav class="mt-3" aria-label="users page">
-          <ul class="pagination justify-content-end">
-            <li class="page-item disabled"><span class="page-link">ก่อนหน้า</span></li>
-            <li class="page-item active"><span class="page-link">1</span></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">ถัดไป</a></li>
-          </ul>
-        </nav>
       </div>
     </div>
   </section>
 </div>
 
-<!-- Modal ดูรายละเอียดผู้ใช้ -->
-<div class="modal fade" id="userView" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h6 class="modal-title">รายละเอียดผู้ใช้</h6>
-        <button class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body">
-        <p class="mb-1"><strong>ชื่อ:</strong> นาย สมชาย</p>
-        <p class="mb-1"><strong>อีเมล:</strong> somchai@example.com</p>
-        <p class="mb-1"><strong>เบอร์:</strong> 081-234-5678</p>
-        <p class="mb-1"><strong>บทบาท:</strong> ผู้ใช้</p>
-        <p class="mb-1"><strong>สถานะ:</strong> ปกติ</p>
-        <p class="mb-0"><strong>ที่อยู่:</strong> 123 ถนนสุขุมวิท กรุงเทพฯ</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-outline-secondary" data-bs-dismiss="modal">ปิด</button>
-        <button class="btn btn-warning">ระงับบัญชี</button>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <?php include 'footer.php'; ?>
+<script>
+  $(document).ready(function () {
+    
+    $(document).on("click", ".btn-status", function (e) {
+      e.preventDefault();
+      const formData = $(this).data();
+      Swal.fire({
+        title: 'ระงับบัญชีผู้ใช้',
+        text: 'กรุณายืนยัน',
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ยืนยัน'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "POST",
+            url: "api/user_status.api.php",
+            data: formData,
+            success: function (response) {
+              location.reload();
+            }
+          });
+        }
+      })
+    })
+
+    $(document).on("click", ".btn-delete", function (e) {
+      e.preventDefault();
+      const formData = $(this).data();
+      Swal.fire({
+        title: 'ลบบัญชี',
+        text: 'กรุณายืนยัน',
+        icon: 'success',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'ยืนยัน'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            type: "POST",
+            url: "api/delete_user.api.php",
+            data: formData,
+            success: function (response) {
+              location.reload();
+            }
+          });
+        }
+      })
+    })
+
+  });
+</script>
 
 </body>
 </html>

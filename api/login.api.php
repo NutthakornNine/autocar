@@ -13,7 +13,11 @@
         $query = $conn->query($sql);
         if ($query->num_rows > 0) {
             $row = $query->fetch_assoc();
-            $_SESSION['userid'] = $row['user_id'];
+            if ($row['status'] == 0) {
+                echo 'ban';
+                exit;
+            }
+             $_SESSION['userid'] = $row['user_id'];
             $_SESSION['email'] = $row['email'];
             $_SESSION['role'] = $row['role'];
             $_SESSION['users'] = $row;

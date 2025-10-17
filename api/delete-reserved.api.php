@@ -10,6 +10,7 @@ $sql = "
 
 $query = $conn->query($sql);
 if ($query) {
+    $conn->query("UPDATE Cars SET car_status = 1 WHERE car_id = {$_POST['car_id']}");
     echo 'success';
 } else {
     echo 'error';

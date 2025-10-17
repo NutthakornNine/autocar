@@ -15,23 +15,22 @@
     <div class="content mt-5"> <br>
         <section class="py-4">
             <div class="container">
-                <h5 class="mb-4">การจองรถของฉัน</h5>
+                <h4 class="mb-4"> <b>การจองรถของฉัน</b></h4>
 
-                <!-- Filter -->
                 <div class="card shadow rounded-4 p-4 mb-4">
-                    <form class="row g-3" method="get">
+                    <form class="row g-3" method="get" autocomplete="off">
 
                         <div class="col-12 col-md-6 col-lg-6">
                             <div class="form-group">
-                                <label class="form-label">ชื่อผู้จอง</label>
+                                <label class="form-label">ค้นหาชื่อผู้จอง</label>
                                 <input type="text" name="reserved_name" class="form-control">
                             </div>
                         </div>
 
                         <div class="col-12 col-md-4 col-lg-4">
                             <div class="form-group">
-                                <label for="start-date">วันที่ต้องการเช่า</label>
-                                <input type="text" id="datetime" name="datetime">
+                                <label for="start-date">ค้นหาวันที่จอง</label>
+                                <input type="text" id="datetime" name="datetime" >
                             </div>
                         </div>
 
@@ -42,61 +41,76 @@
                 </div>
 
                 <!-- Table -->
-                <div class="card auto-card p-3 p-md-4">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>#</th>
-                                    <th>ผู้จอง</th>
-                                    <th>รถที่จอง</th>
-                                    <th>วันที่จอง</th>
-                                    <th>สถานะ</th>
-                                    <th class="text-end">การจัดการ</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                foreach (getReservation() as $k => $row):
-                                    $strDate = date("Y-m-d");
-                                    if ($strDate > $row['end_date']) {
-                                        $status = "<span class='badge bg-success'>ดำเนินการสำเร็จ</span>";
-                                    } else {
-                                        $status = "<span class='badge text-dark bg-warning'>อยู่ระหว่างการเช่า</span>";
-                                    }
-                                ?>
-                                    <tr>
-                                        <td><?= $k + 1; ?></td>
-                                        <td>
-                                            <div><?= $row['reserved_name'] ?></div>
-                                            <small class="text-muted"><?= $row['email'] ?></small>
-                                        </td>
-                                        <td>
-                                            <div><?= $row['car_name'] ?></div>
-                                            <small class="text-muted"><?= $row['license_plate'] ?></small>
-                                        </td>
-                                        <td><?= date("d/m/Y", strtotime($row['start_date'])) ?> – <?= date("d/m/Y", strtotime($row['end_date'])) ?></td>
-                                        <td><?= $status ?></td>
+                <div class="card border-0 shadow-lg rounded-4 auto-card p-3 p-md-4">
+  <div class="card-header bg-white border-0 pb-3">
+    <h5 class="fw-bold mb-0 text-primary">
+      <i class="bi bi-calendar-check me-2"></i> รายการจองทั้งหมด
+    </h5>
+  </div>
 
-                                        <td class="text-end">
-                                            <button
-                                                type="button"
-                                                class="btn btn-sm btn-outline-primary btn-view"
-                                                data-reserved_id="<?= $row['reserved_id'] ?>">
-                                                <i class="bi bi-eye">ดูรายละเอียด</i>
-                                            </button>
-                                            <button
-                                                class="btn btn-sm btn-outline-danger btn-delete"
-                                                data-reserved_id="<?= $row['reserved_id'] ?>">
-                                                <i class="bi bi-x-circle">ลบข้อมูล</i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                <?php endforeach ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+  <div class="table-responsive">
+    <table class="table align-middle table-hover mb-0">
+      <thead class="table-light">
+        <tr>
+          <th class="text-center">#</th>
+          <th>ผู้จอง</th>
+          <th>รถที่จอง</th>
+          <th>วันที่จอง</th>
+          <th>สถานะ</th>
+          <th class="text-end">การจัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        foreach (getReservation() as $k => $row):
+          $strDate = date("Y-m-d");
+
+          if ($row['is_return'] == 1) {
+              $status = "<span class='badge bg-success px-3 py-2 rounded-pill'>คืนรถแล้ว</span>";
+          } else if ($strDate > $row['end_date']) {
+              $status = "<span class='badge bg-primary px-3 py-2 rounded-pill'>ดำเนินการสำเร็จ</span>";
+          } else {
+              $status = "<span class='badge bg-warning text-dark px-3 py-2 rounded-pill'>อยู่ระหว่างการเช่า</span>";
+          }
+        ?>
+          <tr>
+            <td class="text-center fw-bold"><?= $k + 1; ?></td>
+            <td>
+              <div class="fw-semibold text-dark"><?= $row['reserved_name'] ?></div>
+              <small class="text-muted"><i class="bi bi-envelope me-1"></i><?= $row['email'] ?></small>
+            </td>
+            <td>
+              <div class="fw-semibold text-dark"><?= $row['car_name'] ?></div>
+              <small class="text-muted"><i class="bi bi-car-front me-1"></i><?= $row['license_plate'] ?></small>
+            </td>
+            <td>
+              <div class="fw-semibold">
+                <?= date("d/m/Y", strtotime($row['start_date'])) ?> – <?= date("d/m/Y", strtotime($row['end_date'])) ?>
+              </div>
+            </td>
+            <td><?= $status ?></td>
+            <td class="text-end">
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm rounded-pill px-3 me-2 btn-view"
+                data-reserved_id="<?= $row['reserved_id'] ?>"
+                data-car_id="<?= $row['car_id'] ?>">
+                <i class="bi bi-eye-fill me-1"></i> ดูรายละเอียด
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-danger btn-sm rounded-pill px-3 btn-delete"
+                data-reserved_id="<?= $row['reserved_id'] ?>">
+                <i class="bi bi-trash3-fill me-1"></i> ลบ
+              </button>
+            </td>
+          </tr>
+        <?php endforeach ?>
+      </tbody>
+    </table>
+  </div>
+</div>
+
             </div>
         </section>
     </div>
@@ -127,12 +141,13 @@
         });
         $(document).on("click", ".btn-view", function(e) {
             e.preventDefault();
-            const id = $(this).data("reserved_id");
+            var reserved_id = $(this).data("reserved_id");
+            var car_id = $(this).data("car_id");
             $.ajax({
                 type: "POST",
                 url: "api/get-reservation.api.php",
                 data: {
-                    reserved_id: id
+                    reserved_id: reserved_id
                 },
                 dataType: "JSON",
                 success: function(response) {
@@ -181,13 +196,28 @@
                         title: '<h4 class="fw-bold mb-3">แสดงข้อมูลรายละเอียด</h4>',
                         html: html,
                         icon: 'info',
-                        showCancelButton: false,
+                        showCancelButton: true,
                         confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'ปิด',
+                        confirmButtonText: 'คืนรถ',
+                        cancelButtonText: 'ปิดหน้าจอ',
                         width: '65%',
                         customClass: {
                             popup: 'p-4'
                         }
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        $.ajax({
+                            type: "POST",
+                            url: "api/return_car.api.php",
+                            data: {
+                                car_id: car_id,
+                                reserved_id: reserved_id
+                            },
+                            success: function (response) {
+                                location.reload();
+                            }
+                        });
+                      }
                     });
                 }
             });
@@ -197,7 +227,7 @@
             e.preventDefault();
             const formData = $(this).data();
             Swal.fire({
-                title: 'ลบ',
+                title: 'ลข้อมูลการจอง',
                 text: '',
                 icon: 'error',
                 showCancelButton: true,
@@ -213,8 +243,8 @@
                         success: function(response) {
                             if (response == 'success') {
                                 Swal.fire({
-                                    title: 'Success',
-                                    text: 'Delete Data is Success',
+                                    title: 'ลบข้อมูลการจองสำเร็จ',
+                                    text: 'Successfully deleted booking information',
                                     icon: 'success',
                                     showCancelButton: false,
                                     confirmButtonColor: '#3085d6',

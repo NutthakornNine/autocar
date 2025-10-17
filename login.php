@@ -24,24 +24,39 @@
         box-sizing: border-box; }
     </style>
 </head> 
-<body class="d-flex align-items-center" style="min-height:100vh ; background: linear-gradient(135deg, #1a73e8, #1f53d7ff); "> 
-  <div class="container"> 
+<body class="d-flex align-items-center" style="min-height:100vh; background: linear-gradient(135deg, #1a73e8, #1f53d7ff);">
+  <div class="container">
     <form action="" method="post" id="login">
-      <div class="row justify-content-center"> 
-        <div class="col-md-6 col-lg-5"> 
-          <div class="p-5 bg-white rounded-4 border shadow"> 
-            <div class="text-center mb-3"> 
-              <img src="assets/logo2.png" alt="logo" style="height:300px"/> 
-              <h1 class="h5 mt-2 mb-0" style="font-size:25px;" >เข้าสู่ระบบ</h1> 
-            </div> 
-            <div class="mb-3"><input class="input-big" placeholder="อีเมล" name="email" id="email" required /></div> 
-            <div class="mb-3"><input class="input-big" placeholder="รหัสผ่าน" type="password" id="password" name="password" required /></div> 
-            <div class="text-center small mt-3"><input class="input-big btn btn-outline-primary" type="submit" style="font-size:20px;" value="เข้าสู่ระบบ"></div> 
-            <div class="text-center small mt-3" style="font-size:19px;">ยังไม่มีบัญชี? <a href="register.php" style="color: #1a73e8;">สมัครสมาชิก</a></div>   
-          </div> 
-        </div> 
-      </div> 
-      
+      <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+          <div class="p-4 p-md-5 bg-white rounded-4 border shadow">
+            <div class="text-center mb-3">
+              <img src="assets/logo2.png" alt="logo" class="img-fluid" style="max-height:220px;" />
+              <h1 class="mt-2 mb-0" style="font-size:25px;">เข้าสู่ระบบ</h1>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label visually-hidden">อีเมล</label>
+              <input type="email" class="form-control form-control-lg" placeholder="อีเมล" name="email" id="email" required autocomplete="email" />
+            </div>
+
+
+            <div class="mb-3">
+              <label for="password" class="form-label visually-hidden">รหัสผ่าน</label>
+              <input type="password" class="form-control form-control-lg" placeholder="รหัสผ่าน" id="password" name="password" required autocomplete="current-password" />
+            </div>
+
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg">เข้าสู่ระบบ</button>
+            </div>
+
+            <div class="text-center mt-3" style="font-size:19px;">
+              ยังไม่มีบัญชี? <a href="register.php" style="color:#1a73e8;">สมัครสมาชิก</a>
+            </div>
+          </div>
+        </div>
+      </div>/
     </form>
   </div> 
   <?php include 'footer.php'; ?>
@@ -53,17 +68,33 @@
           var formData = $(this).serializeArray();
           $.post("api/login.api.php", formData, (res) => {
             if (res == 'success') {
-              window.location.href = 'index.php';
-            } else {
               Swal.fire(
-                'Error',
-                'Error',
+                  'สมัครสมาชิกสำเร็จ',
+                  'login Success ',
+                  'success'
+                );
+                setTimeout(() => {
+                  window.location.href = 'index.php';
+                }, 1000);
+            } else if (res == 'ban') {
+              Swal.fire(
+                'ผู้ใช้ของคุณโดนระงับชั่วคราว',
+                '',
                 'error'
               );
+            } else {
+              Swal.fire(
+                'รหัสผ่านไม่ถูกต้อง',
+                'รบกวนกรอกรหัสผ่านใหม่อีกครั้ง',
+                'error'
+              );
+              $("#password").val('')
+              setTimeout(() => {
+                $("#password").focus()
+              }, 200);
             }
           });
         });
-
     });
   </script>
 

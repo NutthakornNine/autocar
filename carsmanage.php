@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>เพิ่มรถ | AutoCar</title>
-    <?php include 'header.php'; ?>
+      <?php include 'header.php'; ?>
     <style>
         .hero {
             background: linear-gradient(135deg, #0d6efd, #0aa3ff);
@@ -23,7 +23,7 @@
             object-fit: cover;
             border-radius: .75rem;
         }
-    </style>
+        </style>
 </head>
 
 <body class="bg-light">
@@ -32,137 +32,134 @@
 
 
 
-    <section style="background:#f4f8ff;border-bottom:1px solid #e3eefb;padding:20px 0;">
-        <div class="container  mt-5">
-            <h2 class="display-7 fw-bold mb-1">เพิ่มรถของคุณ</h2>
-            <p class="mb-0 opacity-75">กรอกข้อมูลให้ครบถ้วนเพื่อปล่อยเช่าบนแพลตฟอร์ม</p>
-        </div>
-        <div class="container pb-5 ">
-            <form id="carForm" class="needs-validation" enctype="multipart/form-data" method="post">
-                <div class="row g-4">
+    <section style="background:#f4f8ff;border-bottom:1px solid #e3eefb;padding:60px 0;">
+  <div class="container">
+    <div class="text-center mb-3">
+      <h2 class="fw-bold display-6 text-primary mb-1">เพิ่มรถของคุณ</h2>
+      <p class="text-secondary mb-0 fs-5">กรอกข้อมูลให้ครบถ้วนเพื่อปล่อยเช่าบนแพลตฟอร์มของเรา</p>
+    </div>
 
-                    <div class="col-lg-8">
-                        <div class="card card-soft">
-                            <div class="card-body p-4">
-                                <h5 class="mb-3">รายละเอียดรถ</h5>
-
-                                <div class="row g-3">
-
-
-                                    <div class="col-md-6">
-                                        <label class="form-label">ประเภทรถ </label>
-                                        <select class="form-select" name="car_type" id="car_type" required>
-                                            <option value="">— เลือก —</option>
-                                            <option>Sedan</option>
-                                            <option>SUV</option>
-                                            <option>Hatchback</option>
-                                            <option>Pickup</option>
-                                            <option>EV</option>
-                                        </select>
-                                        <div class="invalid-feedback">เลือกประเภทรถ</div>
-                                    </div>
-
-                                    <!-- brand / model -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">ยี่ห้อ </label>
-                                        <input type="text" class="form-control" name="car_brand" id="car_brand" required placeholder="Toyota / Honda / MG">
-                                        <div class="invalid-feedback">กรอกยี่ห้อ</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">รุ่น </label>
-                                        <input type="text" class="form-control" name="car_model" id="car_model" required placeholder="Yaris / City / ZS">
-                                        <div class="invalid-feedback">กรอกรุ่น</div>
-                                    </div>
-
-                                    <!-- color / plate -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">สีรถ </label>
-                                        <input type="text" class="form-control" name="car_color" id="car_color" required placeholder="เทา / ขาว / ดำ">
-                                        <div class="invalid-feedback">กรอกสีรถ</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">ทะเบียนรถ <small class="text-muted"></small></label>
-                                        <input type="text" class="form-control" name="license_plate" id="license_plate" required placeholder="กก 1234">
-                                        <div class="invalid-feedback">กรอกทะเบียนรถ</div>
-                                    </div>
-
-                                    <!-- seats / fuel -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">ที่นั่ง </label>
-                                        <input type="number" min="1" class="form-control" name="seats" id="seats" required value="5">
-                                        <div class="invalid-feedback">กรอกจำนวนที่นั่ง</div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">ระบบเชื้อเพลิง <small class="text-muted">(fuelsystem)</small></label>
-                                        <select class="form-select" name="fuelsystem" id="fuelsystem" required>
-                                            <option value="">— เลือก —</option>
-                                            <option>Benzine</option>
-                                            <option>Diesel</option>
-                                            <option>Hybrid</option>
-                                            <option>Electric</option>
-                                            <option>LPG</option>
-                                        </select>
-                                        <div class="invalid-feedback">เลือกชนิดเชื้อเพลิง</div>
-                                    </div>
-
-                                    <!-- price / status -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">ราคา/วัน (บาท) </label>
-                                        <div class="input-group">
-                                            <span class="input-group-text">฿</span>
-                                            <input type="number" min="0" step="0.01" class="form-control" name="price_per_day" id="price_per_day" required>
-                                        </div>
-                                        <div class="invalid-feedback">กรอกราคา/วัน</div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <label class="form-label">สถานะประกาศ </label>
-                                        <select class="form-select" name="car_status" id="car_status" required>
-                                            <option value="">— เลือก —</option>
-                                            <option value="1">Active</option>
-                                            <option value="0">Inactive</option>
-                                        </select>
-                                        <div class="invalid-feedback">เลือกสถานะ</div>
-                                    </div>
-
-                                    <!-- province -->
-                                    <div class="col-md-6">
-                                        <label class="form-label">จังหวัด </label>
-                                        <select name="province" id="province" class="form-select" required>
-                                            <option value="">-- เลือกจังหวัด --</option>
-                                            <?php foreach (getProvince() as $p): ?>
-                                                <option value="<?= $p['id'] ?>"><?= $p['name_th'] ?></option>
-                                            <?php endforeach ?>
-                                        </select>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ขวา: อัปโหลดรูป -->
-                    <div class="col-lg-4">
-                        <div class="card card-soft">
-                            <div class="card-body p-4">
-                                <h5 class="mb-3">รูปภาพรถ </h5>
-                                <img id="preview" class="img-preview mb-3 d-none" alt="preview">
-                                <div class="mb-3">
-                                    <input class="form-control" type="file" name="car_image[]" id="car_image" required accept="image/*" multiple>
-                                    <div class="form-text">รองรับ .jpg .png ขนาดแนะนำ ≥ 1200×800</div>
-                                </div>
-
-                                <div class="d-grid gap-2 mt-4">
-                                    <button class="btn btn-primary btn-lg" type="submit">บันทึกรถ</button>
-                                    <button type="reset" class="btn btn-outline-secondary">ยกเลิก</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+    <form id="carForm" class="needs-validation" enctype="multipart/form-data" method="post" novalidate>
+      <div class="row g-4">
+        
+        <!-- Left -->
+        <div class="col-lg-8">
+          <div class="card border-0 shadow-lg rounded-4">
+            <div class="card-body p-4">
+              <h5 class="fw-bold mb-4 border-start border-4 border-primary ps-3">รายละเอียดรถ</h5>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">ประเภทรถ</label>
+                  <select class="form-select" name="car_type" id="car_type" required>
+                    <option value="">— เลือก —</option>
+                    <option>Sedan</option>
+                    <option>SUV</option>
+                    <option>Hatchback</option>
+                    <option>Pickup</option>
+                    <option>EV</option>
+                  </select>
+                  <div class="invalid-feedback">เลือกประเภทรถ</div>
                 </div>
-            </form>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">ยี่ห้อ</label>
+                  <input type="text" class="form-control" name="car_brand" id="car_brand" required placeholder="Toyota / Honda / MG">
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">รุ่น</label>
+                  <input type="text" class="form-control" name="car_model" id="car_model" required placeholder="Yaris / City / ZS">
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">สีรถ</label>
+                  <input type="text" class="form-control" name="car_color" id="car_color" required placeholder="เทา / ขาว / ดำ">
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">ทะเบียนรถ</label>
+                  <input type="text" class="form-control" name="license_plate" id="license_plate" required placeholder="กก 1234">
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">จำนวนที่นั่ง</label>
+                  <input type="number" min="1" class="form-control" name="seats" id="seats" required value="5">
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">ระบบเชื้อเพลิง</label>
+                  <select class="form-select" name="fuelsystem" id="fuelsystem" required>
+                    <option value="">— เลือก —</option>
+                    <option>Benzine</option>
+                    <option>Diesel</option>
+                    <option>Hybrid</option>
+                    <option>Electric</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">ราคา/วัน (บาท)</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-primary text-white">฿</span>
+                    <input type="number" min="0" step="0.01" class="form-control" name="price_per_day" id="price_per_day" required>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">สถานะ</label>
+                  <select class="form-select" name="car_status" id="car_status" required>
+                    <option value="">— เลือก —</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">จังหวัด</label>
+                  <select name="province" id="province" class="form-select" required>
+                    <option value="">-- เลือกจังหวัด --</option>
+                    <?php foreach (getProvince() as $p): ?>
+                      <option value="<?= $p['id'] ?>"><?= $p['name_th'] ?></option>
+                    <?php endforeach ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
+
+        <!-- Right -->
+        <div class="col-lg-4">
+          <div class="card border-0 shadow-lg rounded-4">
+            <div class="card-body p-4">
+              <h5 class="fw-bold mb-4 border-start border-4 border-primary ps-3">รูปภาพรถ</h5>
+
+              <div class="text-center mb-3">
+                <img id="preview" class="img-fluid rounded-3 shadow-sm d-none" alt="preview" style="max-height:200px;">
+              </div>
+
+              <div class="mb-3">
+                <input class="form-control" type="file" name="car_image[]" id="car_image" required accept="image/*" multiple>
+                <div class="form-text text-muted small">รองรับ .jpg .png (ขนาดแนะนำ ≥ 1200×800)</div>
+              </div>
+
+              <div class="d-grid gap-2 mt-4">
+                <button class="btn btn-primary btn-lg shadow-sm" type="submit">
+                  <i class="bi bi-save me-1"></i> บันทึกรถ
+                </button>
+                <button type="reset" class="btn btn-outline-secondary btn-lg">
+                  <i class="bi bi-x-circle me-1"></i> ยกเลิก
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+</section>
+
 
     <section class="mt-4" id="car_list">
         <div class="container  mt-4">
@@ -176,8 +173,9 @@
                         <div class="card h-100">
                             <img src="upload/<?= explode(",", $car['car_image'])[0] ?>" class="card-img-top" alt="...">
                             <div class="card-body">
-                                <h5 class="card-title"><?= $car['car_name'] ?></h5>
-                                <p class="card-text"><?= $car['car_detail'] ?> </p>
+                                <h5 class="card-title"><b><?= $car['car_name'] ?></b></h5>
+                                <p class="card-title"><b>จังหวัด</b> <?= $car['province_name'] ?></p>
+                                <p class="card-text"> <b>รายละเอียดรถ</b> <?= $car['car_detail'] ?> </p>
                                 <div class="d-flex gap-2">
                                     <a href="car.php?car_id=<?= $car['car_id'] ?>" class="btn btn-outline-primary  btn-lg ">ดูรายละเอียด</a>
                                     <a
@@ -239,9 +237,7 @@
         $(document).ready(function() {
 
             function reloadAndScrollTo(targetId, delay = 2000) {
-                // delay = เวลาหน่วง (หน่วยเป็น ms)
                 setTimeout(function() {
-                    // เพิ่ม hash (#id) เพื่อให้หน้า reload แล้วรู้ว่าจะเลื่อนไปไหน
                     window.location.href = window.location.pathname + "#" + targetId;
                     window.location.reload();
                 }, delay);
@@ -260,8 +256,8 @@
                     success: function(response) {
                         if (response == 'success') {
                             Swal.fire({
-                                title: 'Success',
-                                text: 'Saved Data is Success',
+                                title: 'บันทึกข้อมูลรถสำเร็จ',
+                                text: 'Vehicle data saved successfully',
                                 icon: 'success',
                                 showCancelButton: false,
                                 confirmButtonColor: '#3085d6',
@@ -270,7 +266,7 @@
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     $("#carForm").trigger("reset");
-                                    reloadAndScrollTo("car_list", 2000)
+                                    reloadAndScrollTo("car_list", 1000)
                                 }
                             })
                         } else {
@@ -294,7 +290,6 @@
                                 <div class="card card-soft">
                                     <div class="card-body p-4">
                                         <h5 class="mb-3">รายละเอียดรถ</h5>
-
                                         <div class="row g-3">
 
 
@@ -349,7 +344,6 @@
                                                     <option>Diesel</option>
                                                     <option>Hybrid</option>
                                                     <option>Electric</option>
-                                                    <option>LPG</option>
                                                 </select>
                                                 <div class="invalid-feedback">เลือกชนิดเชื้อเพลิง</div>
                                             </div>
@@ -408,7 +402,7 @@
                     </form>
                 `;
                 Swal.fire({
-                    title: 'แก้ไข',
+                    title: 'แก้ไขข้อมูลรถ',
                     html: strHtml,
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
@@ -428,7 +422,7 @@
                             success: function(response) {
                                 if (response == 'success') {
                                     Swal.fire({
-                                        title: 'Success',
+                                        title: 'แก้ไขข้อมูลสำเร็จ',
                                         text: 'Edit Data is Success',
                                         icon: 'success',
                                         showCancelButton: false,
@@ -456,7 +450,7 @@
                 e.preventDefault();
                 const formData = $(this).data();
                 Swal.fire({
-                    title: 'ลบ',
+                    title: 'ลบ ข้อมูลรถ',
                     text: '',
                     icon: 'error',
                     showCancelButton: true,
@@ -472,7 +466,7 @@
                             success: function(response) {
                                 if (response == 'success') {
                                     Swal.fire({
-                                        title: 'Success',
+                                        title: 'ลบข้อมูลรถสำเร็จ',
                                         text: 'Delete Data is Success',
                                         icon: 'success',
                                         showCancelButton: false,

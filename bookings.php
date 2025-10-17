@@ -49,7 +49,7 @@
   <h1 class="h4 mb-3">การจองของฉัน</h1>
 
   <?php foreach (getReservedCar() as $car): ?>
-  <div class="card shadow mb-4"> <!-- ✅ เพิ่ม mb-4 ให้มีระยะห่างระหว่างการ์ด -->
+  <div class="card shadow mb-4"> 
     <div class="row g-0 align-items-stretch">
       <div class="col-md-5">
         <img src="upload/<?= explode(",", $car['car_image'])[0] ?>" class="img-cover w-100 h-100 object-fit-cover rounded-start" alt="">
@@ -71,8 +71,18 @@
               <span class="text-muted"> <?= date("d/m/y", strtotime($car['start_date'])) ?> - <?= date("d/m/y", strtotime($car['end_date'])) ?> </span>
             </h4>
             <div class="d-flex gap-2 me-1">
-              <a href="car.php?car_id=<?=$car['car_id']?>&datetime=<?=$car['start_date'].' - '.$car['end_date']?>" class="btn btn-primary btn-lg">ดูรายละเอียดการจอง</a>
-              <a href="javascript:void(0);" class="btn btn-outline-primary btn-lg btn-delete" data-reserved_id="<?=$car['reserved_id']?>">ยกเลิกการจอง</a>
+              <a 
+                href="car.php?car_id=<?=$car['car_id']?>&datetime=<?=$car['start_date'].' - '.$car['end_date']?>&state=reserved" 
+                class="btn btn-primary btn-lg">
+                ดูรายละเอียดการจอง
+              </a>
+              <a 
+                href="javascript:void(0);" 
+                class="btn btn-outline-danger btn-lg btn-delete" 
+                data-reserved_id="<?=$car['reserved_id']?>"
+                data-car_id="<?=$car['car_id']?>">
+                ยกเลิกการจอง
+              </a>
             </div>
           </div>
         </div>
@@ -91,13 +101,13 @@
             e.preventDefault();
             const formData = $(this).data();
             Swal.fire({
-                title: 'ลบ',
+                title: 'คุณต้องการจะลบข้อมูลการจองหรือไม่',
                 text: '',
                 icon: 'error',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'ลบ',
+                confirmButtonText: 'ลบข้อมูล',
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
@@ -107,7 +117,7 @@
                         success: function(response) {
                             if (response == 'success') {
                                 Swal.fire({
-                                    title: 'Success',
+                                    title: 'ลบข้อมูลสำเร็จ',
                                     text: 'Delete Data is Success',
                                     icon: 'success',
                                     showCancelButton: false,

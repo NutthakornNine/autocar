@@ -1,12 +1,12 @@
 <?php
-    if (isset($_GET['datetime'])) {
-        $strDate = explode(" - ", $_GET['datetime']);
-        $startDate = $strDate[0];
-        $endDate = $strDate[1];
-    } else {
-        $startDate = date("Y-m-d");
-        $endDate = date("Y-m-d");
-    }
+if (isset($_GET['datetime'])) {
+    $strDate = explode(" - ", $_GET['datetime']);
+    $startDate = $strDate[0];
+    $endDate = $strDate[1];
+} else {
+    $startDate = date("Y-m-d");
+    $endDate = date("Y-m-d");
+}
 ?>
 <!DOCTYPE html>
 <html lang="th">
@@ -101,12 +101,12 @@
     <section style="background:#f4f8ff;border-bottom:1px solid #e3eefb;padding:80px 0;">
         <div style="max-width:1400px;margin:0 auto;padding:0 16px;">
             <div class="card shadow rounded-4 p-4">
-                <form action="" method="get" id="form-search">
+                <form method="get" id="form-search">
                     <div class="row">
                         <div class="col-12 col-md-4 col-lg-4">
                             <div class="form-group">
                                 <label for="booking-ref">เลือกจังหวัดที่ต้องการจอง</label>
-                                <select id="booking-ref" name="province" class="form-control form-select shadow-4" data-placeholder="เลือกรถ">
+                                <select id="booking-ref" name="province" class="form-control form-select shadow-4" data-placeholder="กรุณาเลือก" required>
                                     <option value="" disabled selected>กรุณาเลือก</option>
                                     <?php foreach (getProvince() as $p): ?>
                                         <option value="<?= $p['id'] ?>"><?= $p['name_th'] ?></option>
@@ -129,36 +129,28 @@
             </form>
     </section>
     <div class="container ">
-        <h3><b>รถแนะนำ</b></h3>
+        <h3><b>โปรโมชั่นพิเศษ</b></h3>
         <hr>
-    </div>
-    <section id="car-list ">
-        <div class="container ">
-            <div class="row row-cols-1 row-cols-md-2 g-4">
-                <?php foreach (getCarListNoOwner() as $car) : ?>
-                    <div class="col" data-aos="fade-up">
-                        <div class="card">
-                            <img src="upload/<?= explode(",", $car['car_image'])[0] ?>" class="card-img-top fixed-img" alt="...">
-                            <div class="card-body">
-                                <h4 class="card-title"><b><?= $car['car_name'] ?></b> </h4>
-                                <p class="card-text"><?= $car['car_detail'] ?></p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <b>
-                                            <h3><span class="fw-bold">฿<?= $car['price_per_day'] ?></span><span class="text-muted">/วัน</span>
-                                        </b></h3>
-                                    </div>
-                                    <div class="d-flex gap-2">
-                                        <a href="car.php" class="btn btn-outline-primary btn-lg ">ดูรายละเอียด</a>
-                                        <a href="checkout.php?car_id=<?= $car['car_id'] ?>&start_date=<?=$startDate?>&end_date=<?=$endDate?>" class="btn btn-primary btn-lg ">จองทันที</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+        <div class="row row-cols-1 row-cols-md-2 g-4">
+            <div class="col">
+                <div class="card">
+                    <img src="" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
                     </div>
-                <?php endforeach ?>
+                </div>
             </div>
-    </section> <br><br>
+            <div class="col">
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <?php include 'chatbot.php' ?>
     <?php include 'footer.php' ?>
@@ -214,7 +206,11 @@
         typeWriter();
 
         $("#form-search").on("submit", function(e) {
-            this.submit();
+            e.preventDefault();
+            const province = $("#booking-ref").val();
+            const datetime = $("#datetime").val();
+            var selectedText = $('#booking-ref option:selected').text();
+            window.location.href = `results.php?datetime=${datetime}&province=${province}&province_name=${selectedText}`;
         });
     </script>
 

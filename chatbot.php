@@ -37,6 +37,7 @@
     <button class="send-btn" id="sendBtn" type="submit">ส่ง</button>
   </form>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
   const popup   = document.getElementById('chatPopup');
   const toggle  = document.getElementById('chatToggle');
@@ -48,7 +49,6 @@
   const openPopup = () => {
     popup.classList.add('open');
     toggle.setAttribute('aria-expanded', 'true');
-    // โฟกัสช่องพิมพ์เมื่อเปิด
     setTimeout(() => input.focus(), 120);
   };
   const closePopup = () => {
@@ -61,11 +61,20 @@
   });
   closeBt.addEventListener('click', closePopup);
 
-  // ส่งข้อความ (เฉพาะ UI)
-  form.addEventListener('submit', () => {
+  // ===== ฟังก์ชันป้องกัน XSS =====
+  function escapeHtml(str){
+    return str.replace(/[&<>"']/g, s => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[s]));
+  }
+
+  // ===== ส่งข้อความ (UI + AJAX) =====
+  form.addEventListener('submit', e => {
+    e.preventDefault();
     const text = input.value.trim();
     if(!text) return;
-    // สร้างบับเบิลฝั่งผู้ใช้
+
+    // สร้างข้อความฝั่ง user
     const m = document.createElement('div');
     m.className = 'msg user';
     m.innerHTML = `${escapeHtml(text)}<span class="time">ส่งแล้ว</span>`;
@@ -73,20 +82,28 @@
     input.value = '';
     body.scrollTop = body.scrollHeight;
 
-    // เดโม่: ให้บอทตอบกลับแบบ placeholder
-    setTimeout(() => {
-      const b = document.createElement('div');
-      b.className = 'msg bot';
-      b.innerHTML = `ฉันเป็น UI เดโม่—ต่อแบ็กเอนด์เมื่อพร้อมได้เลย ✨<span class="time">สักครู่</span>`;
-      body.appendChild(b);
-      body.scrollTop = body.scrollHeight;
-    }, 500);
-  });
+    // สร้างบับเบิลของ bot แบบ loading
+    const b = document.createElement('div');
+    b.className = 'msg bot';
+    b.innerHTML = `<span class="loading">...</span>`;
+    body.appendChild(b);
+    body.scrollTop = body.scrollHeight;
 
-  // ช่วยป้องกัน XSS สำหรับข้อความที่ผู้ใช้พิมพ์ (แม้จะเป็นเดโม่ก็ตาม)
-  function escapeHtml(str){
-    return str.replace(/[&<>"']/g, s => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-    }[s]));
-  }
+    // ส่ง AJAX ไป PHP
+    $.ajax({
+      type: "POST",
+      url: "api/AIChat.php",
+      data: { question: text },
+      dataType: "json",
+      success: function (response) {
+        b.innerHTML = escapeHtml(response?.answer || "ไม่มีคำตอบ");
+        body.scrollTop = body.scrollHeight;
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+        console.error("AJAX error:", textStatus, errorThrown);
+        console.log("Response text:", jqXHR.responseText);
+        b.innerHTML = "<span class='error'>เกิดข้อผิดพลาดในการเชื่อมต่อ</span>";
+      }
+    });
+  });
 </script>

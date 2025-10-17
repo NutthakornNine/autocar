@@ -21,15 +21,29 @@
           <div class="card auto-card p-3">
             <div class="d-flex justify-content-between align-items-center">
               <div>
-                <div class="text-muted small">ยอดชำระสำเร็จ (เดือนนี้)</div>
-                <div class="fs-4 fw-bold">฿ 128,500</div>
+                <div class="text-muted small">ยอดชำระสำเร็จทั้งหมด</div>
+                <div class="fs-4 fw-bold">฿ <?=getPayAmount()?></div>
               </div>
               <i class="bi bi-cash-coin fs-2"></i>
             </div>
             <div class="progress mt-2" style="height:8px;">
               <div class="progress-bar" style="width: 68%"></div>
             </div>
-            <small class="text-muted">เพิ่มขึ้น 12% จากเดือนก่อน</small>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-4">
+          <div class="card auto-card p-3">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div class="text-muted small">ยอดชำระสำเร็จ (เดือนนี้)</div>
+                <div class="fs-4 fw-bold">฿ <?=getPayAmountByMonth()?></div>
+              </div>
+              <i class="bi bi-journal-check fs-2"></i>
+            </div>
+            <div class="progress mt-2" style="height:8px;">
+              <div class="progress-bar" style="width: 54%"></div>
+            </div>
           </div>
         </div>
 
@@ -38,30 +52,13 @@
             <div class="d-flex justify-content-between align-items-center">
               <div>
                 <div class="text-muted small">จำนวนการจอง (เดือนนี้)</div>
-                <div class="fs-4 fw-bold">86</div>
-              </div>
-              <i class="bi bi-journal-check fs-2"></i>
-            </div>
-            <div class="progress mt-2" style="height:8px;">
-              <div class="progress-bar" style="width: 54%"></div>
-            </div>
-            <small class="text-muted">+8 รายการ</small>
-          </div>
-        </div>
-
-        <div class="col-12 col-md-4">
-          <div class="card auto-card p-3">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <div class="text-muted small">อัตราการยืนยัน</div>
-                <div class="fs-4 fw-bold">91%</div>
+                <div class="fs-4 fw-bold"><?=getCountReserved()?></div>
               </div>
               <i class="bi bi-graph-up-arrow fs-2"></i>
             </div>
             <div class="progress mt-2" style="height:8px;">
               <div class="progress-bar" style="width: 91%"></div>
             </div>
-            <small class="text-muted">จบด้วยการชำระสำเร็จ</small>
           </div>
         </div>
       </div>
@@ -69,27 +66,17 @@
       <!-- Filters -->
       <div class="card auto-card p-3 p-md-4 mb-4">
         <form class="row g-3">
-          <div class="col-12 col-md-3">
-            <label class="form-label">ช่วงเวลา</label>
-            <select class="form-select">
-              <option>เดือนนี้</option>
-              <option>ไตรมาสนี้</option>
-              <option>ปีนี้</option>
-              <option>กำหนดเอง</option>
-            </select>
-          </div>
-          <div class="col-6 col-md-3">
+          <div class="col-5 col-md-5">
             <label class="form-label">ตั้งแต่</label>
-            <input type="date" class="form-control">
+            <input type="date" class="form-control" name="start_date">
           </div>
-          <div class="col-6 col-md-3">
+          <div class="col-5 col-md-5">
             <label class="form-label">ถึง</label>
-            <input type="date" class="form-control">
+            <input type="date" class="form-control" name="end_date">
           </div>
-          <div class="col-12 col-md-3 d-flex align-items-end">
+          <div class="col-2 col-md-2 d-flex align-items-end">
             <div class="d-flex gap-2 w-100">
               <button class="btn btn-primary w-100" type="submit"><i class="bi bi-search"></i> ดูรายงาน</button>
-              <button class="btn btn-outline-dark w-100" type="button"><i class="bi bi-download"></i> ดาวน์โหลด</button>
             </div>
           </div>
         </form>
@@ -111,24 +98,32 @@
               </tr>
             </thead>
             <tbody>
+              <?php foreach (getSumTotalTable() as $key => $row): ?>
               <tr>
-                <td>1</td>
-                <td>#R-000245</td>
-                <td>นาย สมชาย</td>
-                <td>Toyota GR Yaris</td>
-                <td>10/10/2025 14:23</td>
-                <td>฿ 1,700.00</td>
-                <td><span class="badge text-bg-success">สำเร็จ</span></td>
+                <td><?=$key + 1?></td>
+                <td><?=$row['reserved_id']?></td>
+                <td><?=$row['reserved_name']?></td>
+                <td><?=$row['car_name']?></td>
+                <td><?=$row['date_time']?></td>
+                <td>฿<?=number_format($row['total'], 2)?></td>
+                <td>
+                  <?php
+                    switch ($row['is_return']) {
+                        case '1':
+                          echo "
+                              <span class='badge text-bg-success'>คืนแล้ว</span>
+                            ";
+                          break;
+                        case '0':
+                          echo "
+                            <span class='badge text-bg-danger'>อยู่ระหว่างการยืม</span>
+                            ";
+                          break;
+                      }
+                  ?>
+                </td>
               </tr>
-              <tr>
-                <td>2</td>
-                <td>#R-000246</td>
-                <td>นางสาว อมร</td>
-                <td>Honda City</td>
-                <td>10/10/2025 18:02</td>
-                <td>฿ 700.00</td>
-                <td><span class="badge text-bg-danger">ล้มเหลว</span></td>
-              </tr>
+              <?php endforeach ?>
             </tbody>
           </table>
         </div>
@@ -138,13 +133,9 @@
          
           <ul class="pagination justify-content-end">
              <button type="button" class="btn btn-primary me-2" >
-            รวมยอดขาย: <span id="totalSales">฿3,000,000,000</span>
+            รวมยอดขาย: <span id="totalSales">฿<?=getSumTotal()?></span>
           </button>
-            <li class="page-item disabled"><span class="page-link">ก่อนหน้า</span></li>
-            <li class="page-item active"><span class="page-link">1</span></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">ถัดไป</a></li>
-          </ul>
+
         </nav>
       </div>
     </div>
