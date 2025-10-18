@@ -99,11 +99,7 @@ if (isset($_GET['datetime'])) {
                     <div class="p-3 bg-white rounded-4 border shadow h-100">
                         <div class="p-3 border rounded-4 bg-white">
                             <div class="h5 mb-3">ช่วงราคา (ต่อวัน)</div>
-
-                            <!-- สไลเดอร์สองหัว -->
                             <div id="priceSlider" class="mb-3"></div>
-
-                            <!-- ช่วงราคาขั้นต่ำ-สูงสุด -->
                             <div class="row g-3 align-items-center">
                                 <div class="col-12 col-md-5">
                                     <label class="text-secondary small mb-1 d-block">ราคาต่ำสุด</label>
@@ -133,6 +129,7 @@ if (isset($_GET['datetime'])) {
                                 <option value="Sedan">Sedan</option>
                                 <option value="SUV">SUV</option>
                                 <option value="Hatchback">Hatchback</option>
+                                <option value="Pickup">Pickup</option>
                                 <option value="EV">EV</option>
                             </select>
                         </div>
@@ -173,10 +170,10 @@ if (isset($_GET['datetime'])) {
                                     <label class="filter-chip"><h5>ที่นั่งมาก</h5></label>
                                     <select class="form-select" id="seats" name="seats">
                                         <option value="">ทั้งหมด</option>
-                                        <option value="2">2</option>
-                                        <option value="4">4</option>
                                         <option value="5">5</option>
                                         <option value="6">6</option>
+                                        <option value="7">7</option>
+
                                     </select>
                                 </div>
                                 <hr>
@@ -221,9 +218,9 @@ if (isset($_GET['datetime'])) {
                                     </div>
 
                                     <div class="col">
-                                        <input class="btn-check" id="c-blue" name="car_color[]" type="checkbox" value="ฟ้า" autocomplete="off">
+                                        <input class="btn-check" id="c-blue" name="car_color[]" type="checkbox" value="น้ำเงิน" autocomplete="off">
                                         <label class="btn btn-outline-secondary color-pill w-100" for="c-blue">
-                                            <span class="swatch" style="background:#2f80ed"></span> สีฟ้า
+                                            <span class="swatch" style="background:#2f80ed"></span> สีน้ำเงิน
                                         </label>
                                     </div>
 

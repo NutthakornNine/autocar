@@ -83,6 +83,21 @@ if (isset($_GET['datetime'])) {
             font-size: 20px;
             text-shadow: 0 4px 16px rgba(0, 0, 0, .35);
         }
+
+        .card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            border-radius: 20px;
+            transition: transform 0.5s ease;
+        }
+
+        .card img:hover {
+            transform: scale(1.03);
+        }
     </style>
     <?php include 'header.php' ?>
 
@@ -131,88 +146,96 @@ if (isset($_GET['datetime'])) {
     <div class="container ">
         <h3><b>โปรโมชั่นพิเศษ</b></h3>
         <hr>
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-            <div class="col">
-                <div class="card">
-                    <img src="" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
+        <div class="card text-bg-dark border-0 shadow-lg rounded-4 overflow-hidden">
+            <div id="autoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2500" >
+                <div class="carousel-inner">
+
+                    <!-- รูปที่ 1 -->
+                    <div class="carousel-item active">
+                        <img src="assets/promotion1.png" class="d-block w-100" alt="รูป 1" style=" object-fit:cover;">
                     </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
+
+                    <!-- รูปที่ 2 -->
+                    <div class="carousel-item">
+                        <img src="assets/promotion2.png" class="d-block w-100" alt="รูป 2" style="object-fit:cover;">
                     </div>
+
+                    <!-- ปุ่มเลื่อนไปซ้าย -->
+                    <button class="carousel-control-prev" type="button" data-bs-target="#autoCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+
+                    <!-- ปุ่มเลื่อนไปขวา -->
+                    <button class="carousel-control-next" type="button" data-bs-target="#autoCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
+        <br><br>
 
 
-    <?php include 'chatbot.php' ?>
-    <?php include 'footer.php' ?>
-    </script>
+        <?php include 'chatbot.php' ?>
+        <?php include 'footer.php' ?>
+        </script>
 
-    <script>
-        $('#datetime').daterangepicker({
-            locale: {
-                format: 'YYYY-MM-DD',
-                separetor: ' - '
-            },
-            startDate: '<?= $startDate ?>',
-            endDate: '<?= $endDate ?>'
-        });
-        $('#booking-ref').select2({
-            theme: "bootstrap-5",
-            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
-            placeholder: $(this).data('placeholder'),
-        });
-        const texts = [
-            "ค้นหารถเช่าที่ใช่ ในราคาที่ชอบ...",
-            "เปรียบเทียบราคา สะดวก ปลอดภัย",
-            "คิดถึงรถเช่านึกถึง Auto Car",
-        ];
+        <script>
+            $('#datetime').daterangepicker({
+                locale: {
+                    format: 'YYYY-MM-DD',
+                    separetor: ' - '
+                },
+                startDate: '<?= $startDate ?>',
+                endDate: '<?= $endDate ?>'
+            });
+            $('#booking-ref').select2({
+                theme: "bootstrap-5",
+                width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+                placeholder: $(this).data('placeholder'),
+            });
+            const texts = [
+                "ค้นหารถเช่าที่ใช่ ในราคาที่ชอบ...",
+                "เปรียบเทียบราคา สะดวก ปลอดภัย",
+                "คิดถึงรถเช่านึกถึง Auto Car",
+            ];
 
-        let textIndex = 0;
-        let charIndex = 0;
-        let isDeleting = false;
-        const speed = 170;
-        const delay = 1700;
+            let textIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            const speed = 170;
+            const delay = 1700;
 
-        function typeWriter() {
-            const currentText = texts[textIndex];
-            const typingDiv = document.getElementById("typing");
+            function typeWriter() {
+                const currentText = texts[textIndex];
+                const typingDiv = document.getElementById("typing");
 
-            if (!isDeleting) {
-                typingDiv.textContent = currentText.substring(0, charIndex++);
-                if (charIndex > currentText.length) {
-                    isDeleting = true;
-                    setTimeout(typeWriter, delay);
-                    return;
+                if (!isDeleting) {
+                    typingDiv.textContent = currentText.substring(0, charIndex++);
+                    if (charIndex > currentText.length) {
+                        isDeleting = true;
+                        setTimeout(typeWriter, delay);
+                        return;
+                    }
+                } else {
+                    typingDiv.textContent = currentText.substring(0, charIndex--);
+                    if (charIndex < 0) {
+                        isDeleting = false;
+                        textIndex = (textIndex + 1) % texts.length; // ไปข้อความถัดไป
+                    }
                 }
-            } else {
-                typingDiv.textContent = currentText.substring(0, charIndex--);
-                if (charIndex < 0) {
-                    isDeleting = false;
-                    textIndex = (textIndex + 1) % texts.length; // ไปข้อความถัดไป
-                }
+                setTimeout(typeWriter, isDeleting ? speed / 2 : speed);
             }
-            setTimeout(typeWriter, isDeleting ? speed / 2 : speed);
-        }
 
-        typeWriter();
+            typeWriter();
 
-        $("#form-search").on("submit", function(e) {
-            e.preventDefault();
-            const province = $("#booking-ref").val();
-            const datetime = $("#datetime").val();
-            var selectedText = $('#booking-ref option:selected').text();
-            window.location.href = `results.php?datetime=${datetime}&province=${province}&province_name=${selectedText}`;
-        });
-    </script>
+            $("#form-search").on("submit", function(e) {
+                e.preventDefault();
+                const province = $("#booking-ref").val();
+                const datetime = $("#datetime").val();
+                var selectedText = $('#booking-ref option:selected').text();
+                window.location.href = `results.php?datetime=${datetime}&province=${province}&province_name=${selectedText}`;
+            });
+        </script>
 
 
 </body>

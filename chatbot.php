@@ -11,7 +11,7 @@
   <header class="chat-header">
     <div class="chat-avatar">AI</div>
     <div>
-      <div class="chat-title">Auto Assistant</div>
+      <div class="chat-title">Autocar Assistant</div>
       <div class="chat-sub">พร้อมช่วยค้นหารถ/ตอบคำถาม</div>
     </div>
     <button class="chat-close" id="chatClose" aria-label="ปิดแชท">
@@ -24,10 +24,6 @@
   <main class="chat-body" id="chatBody">
     <div class="msg bot">
       สวัสดีค่ะ 👋 ต้องการความช่วยเหลือเรื่องอะไรดีคะ?
-      <span class="time">ตอนนี้</span>
-    </div>
-    <div class="msg user">
-      อยากดูรถเช่าที่แนะนำหน่อยครับ
       <span class="time">ตอนนี้</span>
     </div>
   </main>
